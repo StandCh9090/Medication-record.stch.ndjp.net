@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>電子おくすり手帳 - JSONデータ保存対応版</title>
+    <title>電子おくすり手帳 - ローカル保存対応版</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -358,11 +358,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">お名前</label>
-                            <input type="text" id="profile-name" value="山田 太郎" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="text" id="profile-name" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">生年月日</label>
-                            <input type="date" id="profile-birth" value="1981-07-09" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="date" id="profile-birth" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">血液型</label>
@@ -376,7 +376,7 @@
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">携帯電話</label>
-                            <input type="tel" id="profile-phone" value="090-1234-5678" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="tel" id="profile-phone" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                     </div>
                 </div>
@@ -389,11 +389,11 @@
                     <div class="grid grid-cols-1 gap-4">
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">アレルギー・副作用歴があるお薬</label>
-                            <textarea id="profile-allergies" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500" placeholder="例: ペニシリン（じんましん）、卵アレルギーなど">ペニシリン系抗生物質（じんましん）、花粉症</textarea>
+                            <textarea id="profile-allergies" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500" placeholder="例: ペニシリン（じんましん）、卵アレルギーなど"></textarea>
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">持病・既往歴</label>
-                            <textarea id="profile-diseases" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500" placeholder="例: 高血圧、糖尿病、過去の手術歴など">軽度の胃荒れ</textarea>
+                            <textarea id="profile-diseases" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500" placeholder="例: 高血圧、糖尿病、過去の手術歴など"></textarea>
                         </div>
                     </div>
                 </div>
@@ -406,32 +406,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">緊急連絡先（関係）</label>
-                            <input type="text" id="profile-emergency-name" value="山田 花子 (妻)" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="text" id="profile-emergency-name" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">緊急連絡先電話番号</label>
-                            <input type="tel" id="profile-emergency-phone" value="090-8765-4321" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="tel" id="profile-emergency-phone" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">かかりつけ医療機関名</label>
-                            <input type="text" id="profile-hospital-name" value="さくら内科クリニック" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="text" id="profile-hospital-name" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-500 font-semibold mb-1">かかりつけ医療機関電話</label>
-                            <input type="tel" id="profile-hospital-phone" value="03-1234-5678" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="tel" id="profile-hospital-phone" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-500">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ★ 新設：データ管理（JSONインポート・エクスポート） ★ -->
+            <!-- データ管理（JSONインポート・エクスポート ＆ LocalStorageリセット） -->
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
                 <h3 class="font-bold text-slate-900 pb-2 border-b border-slate-100 flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-file-invoice text-brand-600"></i> GitHub Pages対応 データ保存・復元 (JSON)
+                    <i class="fa-solid fa-database text-brand-600"></i> ブラウザ自動保存 & データ管理
                 </h3>
                 <p class="text-xs text-slate-500 leading-relaxed">
-                    お薬手帳の全データ（プロフィール、登録お薬、服用記録）をローカルに保存したり、読み込んだりできます。
-                    これにより、GitHub Pagesなどの公開サーバー上でもデータを紛失せず管理できます。
+                    現在、データはブラウザのローカルストレージに**完全自動保存**されており、GitHub Pages上でも永続化されます。
+                    他端末へのデータ移動や不測のデータ消失に備えて、定期的にバックアップJSONファイルを保存することをおすすめします。
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -439,14 +439,14 @@
                     <div class="border border-slate-200 p-4 rounded-2xl bg-slate-50/50 flex flex-col justify-between">
                         <div>
                             <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
-                                <i class="fa-solid fa-file-arrow-down text-brand-600"></i> データを保存する (JSON書き出し)
+                                <i class="fa-solid fa-file-arrow-down text-brand-600"></i> データをバックアップ (JSON)
                             </h4>
                             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                                現在登録されている手帳データを1つのバックアップファイルとして端末にダウンロードします。
+                                登録データを1つのバックアップ用JSONファイルとして保存します。
                             </p>
                         </div>
                         <button onclick="exportDataToJSON()" class="mt-4 w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-download"></i> バックアップファイルを保存
+                            <i class="fa-solid fa-download"></i> バックアップを保存
                         </button>
                     </div>
 
@@ -454,19 +454,30 @@
                     <div class="border border-slate-200 p-4 rounded-2xl bg-slate-50/50 flex flex-col justify-between">
                         <div>
                             <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
-                                <i class="fa-solid fa-file-arrow-up text-amber-600"></i> データを復元する (JSON読み込み)
+                                <i class="fa-solid fa-file-arrow-up text-amber-600"></i> バックアップから復元
                             </h4>
                             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                                以前保存したバックアップファイル（.json）を読み込んでデータを手帳に復元します。
+                                以前保存したお薬手帳のバックアップJSONファイルを読み込みます。
                             </p>
                         </div>
                         <div class="mt-4">
                             <label class="w-full bg-slate-950 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm">
-                                <i class="fa-solid fa-upload"></i> バックアップファイルを読込
+                                <i class="fa-solid fa-upload"></i> バックアップを読み込む
                                 <input type="file" id="json-import-input" accept=".json" class="hidden" onchange="importDataFromJSON(event)">
                             </label>
                         </div>
                     </div>
+                </div>
+
+                <!-- 危険領域：クリア機能 -->
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-rose-600 text-xs">手帳のデータをリセット</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5">登録データと服用履歴を削除し、初期状態のデモデータに戻します。</p>
+                    </div>
+                    <button onclick="resetToDefaultData()" class="px-4 py-2 border border-rose-200 hover:bg-rose-50 text-rose-600 font-bold rounded-xl text-xs transition shrink-0">
+                        データを全リセット
+                    </button>
                 </div>
             </div>
         </section>
@@ -706,8 +717,8 @@
 
     <!-- ==================== SCRIPT ==================== -->
     <script>
-        // --- 状態管理 ---
-        let state = {
+        // --- デフォルトの初期モックデータ定義 ---
+        const DEFAULT_STATE = {
             user: {
                 name: "山田 太郎",
                 birth: "1981-07-09",
@@ -747,11 +758,19 @@
             takenLogs: {
                 "2026-07-07": ["med-1_morning", "med-2_morning", "med-1_noon", "med-2_noon", "med-1_evening", "med-2_evening"],
                 "2026-07-08": ["med-1_morning", "med-2_morning", "med-1_noon", "med-2_noon"]
-            },
+            }
+        };
+
+        // --- アプリケーション状態 ---
+        let state = {
+            user: {},
+            medicines: [],
+            takenLogs: {},
             currentCalendarMonth: new Date(2026, 6, 1),
             currentScheduleFilter: 'all'
         };
 
+        const LOCAL_STORAGE_KEY = "cocorocare_techou_v1_data";
         const apiKey = ""; // API Key
 
         // 読み込まれた未登録のお薬リスト（インポート用バッファ）
@@ -775,8 +794,74 @@
             purple: { bg: "bg-purple-50", border: "border-purple-100", text: "text-purple-600", dot: "bg-purple-500" }
         };
 
-        // --- 初期化 ---
+        // --- LocalStorage 保存 & 読込コアロジック ---
+
+        // データをLocalStorageに保存
+        function saveToLocalStorage() {
+            try {
+                const dataToSave = {
+                    user: state.user,
+                    medicines: state.medicines,
+                    takenLogs: state.takenLogs
+                };
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
+            } catch (error) {
+                console.error("LocalStorage write failed:", error);
+            }
+        }
+
+        // データをLocalStorageからロード
+        function loadFromLocalStorage() {
+            try {
+                const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (storedData) {
+                    const parsed = JSON.parse(storedData);
+                    state.user = parsed.user || { ...DEFAULT_STATE.user };
+                    state.medicines = parsed.medicines || [ ...DEFAULT_STATE.medicines ];
+                    state.takenLogs = parsed.takenLogs || { ...DEFAULT_STATE.takenLogs };
+                    return true;
+                }
+            } catch (error) {
+                console.error("LocalStorage read failed:", error);
+            }
+            // データが見つからないかエラーの場合は初期モックを設定
+            loadDefaultData();
+            return false;
+        }
+
+        // 初期のひな形データを読み込む
+        function loadDefaultData() {
+            // ディープコピーで初期化
+            state.user = JSON.parse(JSON.stringify(DEFAULT_STATE.user));
+            state.medicines = JSON.parse(JSON.stringify(DEFAULT_STATE.medicines));
+            state.takenLogs = JSON.parse(JSON.stringify(DEFAULT_STATE.takenLogs));
+        }
+
+        // 手動リセット機能
+        function resetToDefaultData() {
+            if (confirm("現在登録されているすべてのお薬や、毎日の服用チェックデータが消去され、デモデータに戻ります。本当によろしいですか？")) {
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+                loadDefaultData();
+                saveToLocalStorage(); // 再構築
+
+                // 画面再描画
+                loadProfileFields();
+                renderHomeDashboard();
+                renderMedicinesList();
+                renderCalendar();
+                renderHistoryLogs();
+                updateAICounter();
+
+                showToast("データを初期状態にリセットしました");
+                switchTab('home');
+            }
+        }
+
+        // --- ライフサイクル初期化 ---
         window.onload = function() {
+            // LocalStorageより読み込み
+            loadFromLocalStorage();
+
             const today = new Date();
             const year = today.getFullYear();
             const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -987,6 +1072,7 @@
                 showToast("薬を服用しました！記録を保存しました。");
             }
 
+            saveToLocalStorage(); // LocalStorageセーブ
             renderHomeDashboard();
             renderCalendar();
         }
@@ -1081,6 +1167,7 @@
         function deleteMedicine(medId) {
             if (confirm("このお薬を削除してよろしいですか？")) {
                 state.medicines = state.medicines.filter(m => m.id !== medId);
+                saveToLocalStorage(); // LocalStorageセーブ
                 showToast("お薬を削除しました");
                 renderMedicinesList();
                 renderHomeDashboard();
@@ -1423,6 +1510,7 @@
                 }
             });
 
+            saveToLocalStorage(); // LocalStorageセーブ
             showToast(`${pendingImportMedicines.length}種類のお薬をインポートしました！`);
             closeQRImportModal();
             renderMedicinesList();
@@ -1478,6 +1566,7 @@
             };
 
             state.medicines.push(newMed);
+            saveToLocalStorage(); // LocalStorageセーブ
             showToast(`${name} を追加しました！`);
             closeAddMedicineModal();
             renderMedicinesList();
@@ -1606,25 +1695,25 @@
 
         // --- PROFILE ---
         function loadProfileFields() {
-            document.getElementById('profile-name').value = state.user.name;
-            document.getElementById('profile-birth').value = state.user.birth;
-            document.getElementById('profile-blood').value = state.user.blood;
-            document.getElementById('profile-phone').value = state.user.phone;
-            document.getElementById('profile-allergies').value = state.user.allergies;
-            document.getElementById('profile-diseases').value = state.user.diseases;
-            document.getElementById('profile-emergency-name').value = state.user.emergencyName;
-            document.getElementById('profile-emergency-phone').value = state.user.emergencyPhone;
-            document.getElementById('profile-hospital-name').value = state.user.hospitalName;
-            document.getElementById('profile-hospital-phone').value = state.user.hospitalPhone;
+            document.getElementById('profile-name').value = state.user.name || '';
+            document.getElementById('profile-birth').value = state.user.birth || '';
+            document.getElementById('profile-blood').value = state.user.blood || '不明';
+            document.getElementById('profile-phone').value = state.user.phone || '';
+            document.getElementById('profile-allergies').value = state.user.allergies || '';
+            document.getElementById('profile-diseases').value = state.user.diseases || '';
+            document.getElementById('profile-emergency-name').value = state.user.emergencyName || '';
+            document.getElementById('profile-emergency-phone').value = state.user.emergencyPhone || '';
+            document.getElementById('profile-hospital-name').value = state.user.hospitalName || '';
+            document.getElementById('profile-hospital-phone').value = state.user.hospitalPhone || '';
 
             updateAvatarText();
         }
 
         function updateAvatarText() {
-            const firstChar = state.user.name ? state.user.name.charAt(0) : "山";
+            const firstChar = state.user.name ? state.user.name.charAt(0) : "無";
             document.getElementById('user-avatar').innerText = firstChar;
             document.getElementById('mobile-avatar').innerText = firstChar;
-            document.getElementById('user-display-name').innerText = state.user.name;
+            document.getElementById('user-display-name').innerText = state.user.name || '未登録';
 
             if (state.user.birth) {
                 const birthDate = new Date(state.user.birth);
@@ -1634,13 +1723,13 @@
                 if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
-                document.getElementById('user-display-blood').innerText = `${state.user.blood} (${age}歳)`;
+                document.getElementById('user-display-blood').innerText = `${state.user.blood || '不明'} (${age}歳)`;
             } else {
-                document.getElementById('user-display-blood').innerText = `${state.user.blood}`;
+                document.getElementById('user-display-blood').innerText = `${state.user.blood || '不明'}`;
             }
 
-            document.getElementById('home-allergy-info').innerText = state.user.allergies || "特になし";
-            document.getElementById('home-hospital-info').innerText = `${state.user.hospitalName || "未登録"} (${state.user.hospitalPhone || ""})`;
+            document.getElementById('home-allergy-info').innerText = state.user.allergies || "登録なし";
+            document.getElementById('home-hospital-info').innerText = state.user.hospitalName ? `${state.user.hospitalName} (${state.user.hospitalPhone || ''})` : '未登録';
         }
 
         function saveProfile() {
@@ -1656,17 +1745,15 @@
             state.user.hospitalPhone = document.getElementById('profile-hospital-phone').value.trim();
 
             updateAvatarText();
+            saveToLocalStorage(); // LocalStorageセーブ
             showToast("プロフィールを保存しました");
             
             document.querySelectorAll('.user-name').forEach(el => el.innerText = state.user.name);
         }
 
 
-        // --- ★ 新機能：JSONファイル エクスポート・インポート ★ ---
-
-        // 1. JSONにエクスポート
+        // --- JSONインポート・エクスポート ---
         function exportDataToJSON() {
-            // エクスポート用データオブジェクトを作成
             const dataStr = JSON.stringify({
                 app: "cocorocare-backup-v1",
                 exportedAt: new Date().toISOString(),
@@ -1677,11 +1764,9 @@
                 }
             }, null, 2);
 
-            // ダウンロード用Blobを作成
             const blob = new Blob([dataStr], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             
-            // 仮想のaタグを作成してダウンロードトリガー
             const link = document.createElement("a");
             link.href = url;
             link.download = `okuritecho_backup_${getTodayDateString()}.json`;
@@ -1693,7 +1778,6 @@
             showToast("お薬手帳データをJSONファイルに書き出しました！");
         }
 
-        // 2. JSONからインポート
         function importDataFromJSON(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1703,7 +1787,6 @@
                 try {
                     const parsed = JSON.parse(e.target.result);
                     
-                    // 最低限のバリデーション
                     if (parsed.app !== "cocorocare-backup-v1" || !parsed.state) {
                         throw new Error("フォーマットが正しくありません");
                     }
@@ -1713,7 +1796,6 @@
                         throw new Error("必要なデータ構造が含まれていません");
                     }
 
-                    // ユーザーへの確認ダイアログ
                     const action = confirm(
                         "バックアップファイルが見つかりました。\n\n" +
                         "【インポートするお薬】: " + importedState.medicines.length + "件\n\n" +
@@ -1721,12 +1803,12 @@
                     );
 
                     if (action) {
-                        // 状態を置き換え
                         state.user = importedState.user;
                         state.medicines = importedState.medicines;
                         state.takenLogs = importedState.takenLogs;
 
-                        // UI全体を完全に更新
+                        saveToLocalStorage(); // LocalStorageセーブ
+
                         loadProfileFields();
                         renderHomeDashboard();
                         renderMedicinesList();
@@ -1740,7 +1822,6 @@
                 } catch (err) {
                     alert("エラー：正しい電子お薬手帳のバックアップJSONファイルを選択してください。 (" + err.message + ")");
                 } finally {
-                    // inputタグをリセット（同じファイルを再度インポートできるようにするため）
                     document.getElementById('json-import-input').value = '';
                 }
             };
