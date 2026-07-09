@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>電子おくすり手帳 - QRコード対応版</title>
+    <title>電子おくすり手帳 - JSONデータ保存対応版</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -348,6 +348,7 @@
                 </button>
             </div>
 
+            <!-- プロフィールフォーム -->
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-6">
                 <!-- 基本情報 -->
                 <div class="space-y-4">
@@ -422,6 +423,52 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ★ 新設：データ管理（JSONインポート・エクスポート） ★ -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                <h3 class="font-bold text-slate-900 pb-2 border-b border-slate-100 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-file-invoice text-brand-600"></i> GitHub Pages対応 データ保存・復元 (JSON)
+                </h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    お薬手帳の全データ（プロフィール、登録お薬、服用記録）をローカルに保存したり、読み込んだりできます。
+                    これにより、GitHub Pagesなどの公開サーバー上でもデータを紛失せず管理できます。
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <!-- エクスポート -->
+                    <div class="border border-slate-200 p-4 rounded-2xl bg-slate-50/50 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-arrow-down text-brand-600"></i> データを保存する (JSON書き出し)
+                            </h4>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                                現在登録されている手帳データを1つのバックアップファイルとして端末にダウンロードします。
+                            </p>
+                        </div>
+                        <button onclick="exportDataToJSON()" class="mt-4 w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-download"></i> バックアップファイルを保存
+                        </button>
+                    </div>
+
+                    <!-- インポート -->
+                    <div class="border border-slate-200 p-4 rounded-2xl bg-slate-50/50 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-arrow-up text-amber-600"></i> データを復元する (JSON読み込み)
+                            </h4>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                                以前保存したバックアップファイル（.json）を読み込んでデータを手帳に復元します。
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <label class="w-full bg-slate-950 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm">
+                                <i class="fa-solid fa-upload"></i> バックアップファイルを読込
+                                <input type="file" id="json-import-input" accept=".json" class="hidden" onchange="importDataFromJSON(event)">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -464,7 +511,7 @@
             </div>
             
             <div class="p-5 space-y-4">
-                <!-- タブ切り替え (カメラ vs 画像) -->
+                <!-- タブ切り替え -->
                 <div class="flex bg-slate-100 p-1 rounded-xl">
                     <button id="scan-tab-camera" onclick="switchScanMethod('camera')" class="flex-1 text-center py-2 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition">
                         <i class="fa-solid fa-camera mr-1"></i> カメラで直接
@@ -512,7 +559,7 @@
             </div>
             
             <div id="qr-import-list" class="p-5 overflow-y-auto space-y-5 flex-1">
-                <!-- 解析されたお薬アイテム（JSで追加） -->
+                <!-- 解析されたお薬アイテム -->
             </div>
 
             <div class="p-4 border-t border-slate-100 flex gap-2">
@@ -1037,6 +1084,7 @@
                 showToast("お薬を削除しました");
                 renderMedicinesList();
                 renderHomeDashboard();
+                updateAICounter();
             }
         }
 
@@ -1053,9 +1101,8 @@
             document.getElementById('qr-show-med-name').innerText = `${med.name} (${med.dose})`;
 
             const qrContainer = document.getElementById('qrcode-container');
-            qrContainer.innerHTML = ''; // クリア
+            qrContainer.innerHTML = '';
 
-            // アプリ固有のお薬データをJSON化してQRにする
             const qrPayload = JSON.stringify({
                 app: "cocorocare-v1",
                 data: {
@@ -1068,7 +1115,6 @@
                 }
             });
 
-            // QRCodeJSを用いて生成
             new QRCode(qrContainer, {
                 text: qrPayload,
                 width: 200,
@@ -1088,7 +1134,7 @@
         // --- QRコードスキャン機能の実装 ---
         function openScanModal() {
             document.getElementById('scan-modal').classList.remove('hidden');
-            switchScanMethod('camera'); // デフォルトはカメラ
+            switchScanMethod('camera');
         }
 
         function closeScanModal() {
@@ -1117,13 +1163,10 @@
             }
         }
 
-        // カメラ起動
         function startCamera() {
             const config = { fps: 10, qrbox: { width: 230, height: 230 } };
-            
             html5QrCode = new Html5Qrcode("reader");
             
-            // 背面カメラ(environment)を優先
             html5QrCode.start(
                 { facingMode: "environment" }, 
                 config,
@@ -1131,7 +1174,6 @@
                 onScanFailure
             ).catch(err => {
                 console.warn("Camera start failed, falling back to any available: ", err);
-                // カメラ起動失敗時はファイルスキャンを推奨
                 document.getElementById('reader').innerHTML = `
                     <div class="p-6 text-center text-slate-400 text-xs">
                         <i class="fa-solid fa-video-slash text-3xl mb-2 text-slate-500"></i>
@@ -1156,21 +1198,18 @@
             processQRData(decodedText);
         }
 
-        function onScanFailure(error) {
-            // スキャン中、高頻度でフレーム毎に失敗が呼ばれるため、通常のログは出力しない
-        }
+        function onScanFailure(error) {}
 
-        // 画像ファイルからのデコード
         function scanQRFromFile(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            const html5QrCodeFile = new Html5Qrcode("reader"); // 一時的にパーサーとして再利用
+            const html5QrCodeFile = new Html5Qrcode("reader");
             html5QrCodeFile.scanFile(file, true)
                 .then(decodedText => {
                     closeScanModal();
                     processQRData(decodedText);
-                    document.getElementById('qr-file-input').value = ''; // リセット
+                    document.getElementById('qr-file-input').value = '';
                 })
                 .catch(err => {
                     showToast("QRコードを検出できませんでした。別の画像をお試しください。", "error");
@@ -1178,11 +1217,10 @@
                 });
         }
 
-        // --- QRコードデータ解析処理 (JAHIS & アプリJSON両対応) ---
+        // --- QRコードデータ解析処理 ---
         function processQRData(text) {
             pendingImportMedicines = [];
 
-            // 1. アプリ専用お薬データの判定（JSON）
             if (text.trim().startsWith('{')) {
                 try {
                     const parsed = JSON.parse(text);
@@ -1206,8 +1244,6 @@
                 }
             }
 
-            // 2. 日本の電子お薬手帳規格 (JAHIS標準) の簡易解析
-            // カンマ区切りテキストや調剤コードに基づきお薬情報を抽出する
             const lines = text.split(/\r?\n/);
             let currentMedicine = null;
 
@@ -1218,7 +1254,6 @@
                 const recordType = parts[0].trim();
 
                 if (recordType === '11') {
-                    // JAHISお薬レコード: 11, 薬品名, 1回量, 単位
                     if (currentMedicine) {
                         pendingImportMedicines.push(currentMedicine);
                     }
@@ -1226,18 +1261,16 @@
                         name: parts[1] ? parts[1].trim() : "不明なお薬",
                         type: "内服薬",
                         dose: parts[2] ? (parts[2].trim() + (parts[3] ? parts[3].trim() : '')) : "1錠",
-                        timings: ['morning', 'noon', 'evening'], // デフォルト
+                        timings: ['morning', 'noon', 'evening'],
                         notes: "処方箋よりインポート",
                         color: "emerald",
                         startDate: getTodayDateString(),
                         days: 7
                     };
                 } else if (recordType === '201' && currentMedicine) {
-                    // JAHIS用法レコード: 201, 用法名称 (例: 朝昼夕食後)
                     const usageText = parts[1] || "";
                     currentMedicine.notes = `用法: ${usageText}。` + currentMedicine.notes;
 
-                    // タイミングの自動識別マッピング
                     const newTimings = [];
                     if (usageText.includes("朝") || usageText.includes("起床")) newTimings.push("morning");
                     if (usageText.includes("昼") || usageText.includes("昼食")) newTimings.push("noon");
@@ -1248,7 +1281,6 @@
                         currentMedicine.timings = newTimings;
                     }
                 } else if (recordType === '301' && currentMedicine) {
-                    // JAHIS処方日数: 301, 調剤数量(日数)
                     const daysVal = parseInt(parts[1]);
                     if (!isNaN(daysVal)) {
                         currentMedicine.days = daysVal;
@@ -1256,14 +1288,11 @@
                 }
             });
 
-            // 最後のひとつを追加
             if (currentMedicine) {
                 pendingImportMedicines.push(currentMedicine);
             }
 
-            // 3. 規格外のテキスト（一般的なお薬情報等の文字列）
             if (pendingImportMedicines.length === 0) {
-                // 最悪、プレーンテキストを名前として取り込む
                 const cleanText = text.trim();
                 if (cleanText.length > 0 && cleanText.length < 60) {
                     pendingImportMedicines.push({
@@ -1285,7 +1314,6 @@
             openQRImportPreview();
         }
 
-        // インポートプレビュー表示
         function openQRImportPreview() {
             const listContainer = document.getElementById('qr-import-list');
             listContainer.innerHTML = '';
@@ -1365,7 +1393,6 @@
             pendingImportMedicines = [];
         }
 
-        // インポートの最終確定
         function confirmImportMedicines() {
             pendingImportMedicines.forEach((med, idx) => {
                 const name = document.getElementById(`import-name-${idx}`).value.trim();
@@ -1632,6 +1659,92 @@
             showToast("プロフィールを保存しました");
             
             document.querySelectorAll('.user-name').forEach(el => el.innerText = state.user.name);
+        }
+
+
+        // --- ★ 新機能：JSONファイル エクスポート・インポート ★ ---
+
+        // 1. JSONにエクスポート
+        function exportDataToJSON() {
+            // エクスポート用データオブジェクトを作成
+            const dataStr = JSON.stringify({
+                app: "cocorocare-backup-v1",
+                exportedAt: new Date().toISOString(),
+                state: {
+                    user: state.user,
+                    medicines: state.medicines,
+                    takenLogs: state.takenLogs
+                }
+            }, null, 2);
+
+            // ダウンロード用Blobを作成
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            
+            // 仮想のaタグを作成してダウンロードトリガー
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `okuritecho_backup_${getTodayDateString()}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            showToast("お薬手帳データをJSONファイルに書き出しました！");
+        }
+
+        // 2. JSONからインポート
+        function importDataFromJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    
+                    // 最低限のバリデーション
+                    if (parsed.app !== "cocorocare-backup-v1" || !parsed.state) {
+                        throw new Error("フォーマットが正しくありません");
+                    }
+
+                    const importedState = parsed.state;
+                    if (!importedState.user || !Array.isArray(importedState.medicines) || !importedState.takenLogs) {
+                        throw new Error("必要なデータ構造が含まれていません");
+                    }
+
+                    // ユーザーへの確認ダイアログ
+                    const action = confirm(
+                        "バックアップファイルが見つかりました。\n\n" +
+                        "【インポートするお薬】: " + importedState.medicines.length + "件\n\n" +
+                        "※現在のデータはすべて上書きされ、復元データに置き換わります。よろしいですか？"
+                    );
+
+                    if (action) {
+                        // 状態を置き換え
+                        state.user = importedState.user;
+                        state.medicines = importedState.medicines;
+                        state.takenLogs = importedState.takenLogs;
+
+                        // UI全体を完全に更新
+                        loadProfileFields();
+                        renderHomeDashboard();
+                        renderMedicinesList();
+                        renderCalendar();
+                        renderHistoryLogs();
+                        updateAICounter();
+
+                        showToast("手帳データをファイルから正常に復元しました！");
+                    }
+
+                } catch (err) {
+                    alert("エラー：正しい電子お薬手帳のバックアップJSONファイルを選択してください。 (" + err.message + ")");
+                } finally {
+                    // inputタグをリセット（同じファイルを再度インポートできるようにするため）
+                    document.getElementById('json-import-input').value = '';
+                }
+            };
+            reader.readAsText(file);
         }
 
 
